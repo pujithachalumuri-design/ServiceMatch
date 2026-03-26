@@ -5,7 +5,7 @@ const session = require("express-session");
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "public")));
 
 app.use(session({
   secret: "servicematchsecret",
@@ -20,6 +20,11 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "home.html"));
 });
 
-app.listen(3000, () => {
-  console.log("Server running on http://localhost:3000");
-});
+if (process.env.NODE_ENV !== "production") {
+  app.listen(3000, () => {
+    console.log("Server running on http://localhost:3000");
+  });
+}
+
+// Export the Express API for Vercel Serverless Function
+module.exports = app;
