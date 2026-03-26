@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Available Workers</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<nav>
+  <h2>ServiceMatch</h2>
+  <a href="/dashboard">Dashboard</a>
+</nav>
+
+<h2 class="page-title">Available Workers</h2>
+
+<div class="grid" id="workers-grid">
+  <!-- Workers will be populated here by JavaScript -->
+</div>
+
+<script>
+  fetch('/api/workers')
+    .then(res => res.json())
+    .then(workers => {
+      const grid = document.getElementById('workers-grid');
+      grid.innerHTML = ''; // Clear loading state
+      
+      if (workers.length === 0) {
+        grid.innerHTML = '<p>No workers available at the moment.</p>';
+        return;
+      }
+      
+      workers.forEach(worker => {
+        grid.innerHTML += `
+          <div class="worker-card">
+            <h3>${worker.name || 'Unknown Worker'}</h3>
+            <p><strong>Profession:</strong> ${worker.profession || 'N/A'}</p>
+            <p><strong>Experience:</strong> ${worker.experience || '0'} years</p>
+            <p><strong>Location:</strong> ${worker.location || 'N/A'}</p>
+            <p><strong>Phone:</strong> ${worker.phone || 'N/A'}</p>
+            <span class="badge">${worker.availability || 'Available'}</span>
+          </div>
+        `;
+      });
+    })
+    .catch(err => {
+      console.error("Error fetching workers:", err);
+      document.getElementById('workers-grid').innerHTML = '<p>Error loading workers. Please try again later.</p>';
+    });
+</script>
+
+</body>
+</html>

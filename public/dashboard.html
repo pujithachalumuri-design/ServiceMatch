@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<nav>
+  <h2>ServiceMatch</h2>
+  <div>
+    <a href="/available-workers" id="browse-workers-link">Browse Workers</a>
+    <a href="/logout">Logout</a>
+  </div>
+</nav>
+
+<div class="center">
+  <h1 id="welcome-msg">Welcome</h1>
+  <p>You are logged in as <strong id="role-msg">...</strong></p>
+  <a href="/worker-details" class="btn" style="display: none;" id="update-profile-btn">Update Profile</a>
+</div>
+
+<script>
+  fetch('/api/user')
+    .then(res => res.json())
+    .then(user => {
+      if (user) {
+        document.getElementById('welcome-msg').innerText = `Welcome, ${user.name}`;
+        document.getElementById('role-msg').innerText = user.role;
+        // Only workers should see the update profile button and shouldn't see browse workers
+        if (user.role === 'worker') {
+          document.getElementById('update-profile-btn').style.display = 'inline-block';
+          document.getElementById('browse-workers-link').style.display = 'none';
+        }
+      } else {
+        window.location.href = '/login';
+      }
+    })
+    .catch(err => console.error("Error fetching user data:", err));
+</script>
+
+</body>
+</html>

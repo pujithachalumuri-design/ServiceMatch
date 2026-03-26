@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Worker Profile</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<nav>
+  <h2>ServiceMatch</h2>
+  <a href="/dashboard">Dashboard</a>
+</nav>
+
+<div class="card">
+  <h2>Complete Your Professional Profile</h2>
+
+  <form action="/worker-details" method="POST">
+    <input type="hidden" name="email" value="worker@example.com">
+    <input name="name" placeholder="Full Name (e.g. Ravi Kumar)" required>
+    <input name="profession" placeholder="Profession (e.g. Electrician, Plumber)" required>
+    <input name="experience" type="number" placeholder="Experience in years (e.g. 5)" required>
+    <input name="location" placeholder="City of Work (e.g. Mumbai)" required>
+    <input name="phone" placeholder="Phone Handle (e.g. 9876543210)" required>
+    <select name="availability">
+      <option value="Available" selected>Available</option>
+      <option value="Not Available">Not Available</option>
+    </select>
+    <button type="submit">Save</button>
+  </form>
+</div>
+
+</body>
+</html>
